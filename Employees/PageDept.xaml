@@ -22,10 +22,10 @@
 
         <StackPanel Grid.Column="2">
             <Label x:Name="DeptLabel" Content="Подразделение:" HorizontalContentAlignment="Center"  Margin="5" />
-            <ComboBox x:Name="DepartCombo" Margin="40,5,40,5" IsEditable="True" />
-            <Button x:Name="DeptbtnAdd" Margin="40,5,40,5" Content="Добавить"  ToolTip="Добавление введенного подразделения"/>
-            <Button x:Name="DeptbtnChg" Margin="40,5,40,5" Content="Изменить"  ToolTip="Изменение выбранной строки на введенные данные"/>
-            <Button x:Name="DeptbtnDel" Margin="40,5,40,5" Content="Удалить" ToolTip="Удаление выбранного в списке подразделения" />
+            <ComboBox x:Name="DepartCombo" Margin="40,5,40,5" IsEditable="True" DisplayMemberPath="dept"/>
+            <Button x:Name="DeptbtnAdd" Margin="40,5,40,5" Content="Добавить"  ToolTip="Добавление введенного подразделения" Click="DeptbtnAdd_Click"/>
+            <Button x:Name="DeptbtnChg" Margin="40,5,40,5" Content="Изменить"  ToolTip="Изменение выбранной строки на введенные данные" Click="DeptbtnChg_Click"/>
+            <Button x:Name="DeptbtnDel" Margin="40,5,40,5" Content="Удалить" ToolTip="Удаление выбранного в списке подразделения" Click="DeptbtnDel_Click" />
         </StackPanel>
 
     </Grid>

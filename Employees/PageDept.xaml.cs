@@ -45,11 +45,82 @@ namespace Employees
 
             #endregion
 
+            #region insert
+
+            command = new SqlCommand(@"INSERT INTO Department (dept) 
+                          VALUES (@Dept);",
+                          connection);
+
+            command.Parameters.Add("@Dept", SqlDbType.NVarChar, -1, "dept");
+            adapter.InsertCommand = command;
+
+            #endregion
+
+            #region delete
+
+
+            command = new SqlCommand("DELETE FROM Department WHERE dept = @Dept", connection);
+            SqlParameter param = command.Parameters.Add("@Dept", SqlDbType.NVarChar, 0, "dept");
+            param.SourceVersion = DataRowVersion.Original;
+            adapter.DeleteCommand = command;
+
+            #endregion
+
+            #region update
+
+            command = new SqlCommand(@"UPDATE Department SET dept = @Dept WHERE dept = @OldDept", connection);
+
+            command.Parameters.Add("@Dept", SqlDbType.NVarChar, -1, "dept");
+            param = command.Parameters.Add("@OldDept", SqlDbType.NVarChar, 0, "dept");
+            param.SourceVersion = DataRowVersion.Original;
+
+            adapter.UpdateCommand = command;
+
+
+            #endregion
+
             dt = new DataTable();
 
             adapter.Fill(dt);
 
             DeptDataGrid.DataContext = dt.DefaultView;
+            DepartCombo.ItemsSource = dt.DefaultView;
+        }
+
+        private void DeptbtnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            DataRow newRow = dt.NewRow();
+            newRow["dept"] = DepartCombo.Text;
+            dt.Rows.Add(newRow);
+            adapter.Update(dt);
+        }
+
+        private void DeptbtnChg_Click(object sender, RoutedEventArgs e)
+        {
+            string dept = DepartCombo.Text;
+            DataRowView newRow = (DataRowView)DeptDataGrid.SelectedItem;
+            newRow.BeginEdit();
+
+            if (DeptDataGrid.SelectedItem != null && dept != null)
+            {
+                newRow["dept"] = DepartCombo.Text;
+                newRow.EndEdit();
+                adapter.Update(dt);
+            }
+            else
+            {
+                newRow.CancelEdit();
+            }
+        }
+
+        private void DeptbtnDel_Click(object sender, RoutedEventArgs e)
+        {
+            DataRowView newRow = (DataRowView)DeptDataGrid.SelectedItem;
+            if (DeptDataGrid.SelectedItem != null)
+            {
+                newRow.Row.Delete();
+                adapter.Update(dt);
+            }
         }
     }
 }
